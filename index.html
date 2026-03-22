@@ -391,6 +391,28 @@
       color: var(--cyan);
     }
 
+    /* ── Links ── */
+    a {
+      color: var(--cyan);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0,229,255,0.3);
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    a:hover {
+      color: #fff;
+      border-color: var(--cyan);
+    }
+
+    .resource-name a {
+      color: inherit;
+      border-bottom: none;
+    }
+
+    .resource-name a:hover {
+      color: #fff;
+    }
+
     /* ── Responsive ── */
     @media (max-width: 600px) {
       .levels {
@@ -556,7 +578,7 @@
       </div>
       <div class="task-body">
         <div class="note">
-          OBS: Detta moment gick vi inte igenom på föreläsningen – kika på videoinstruktionen för genomgång.
+          OBS: Detta moment gick vi inte igenom på föreläsningen – <a href="https://youtu.be/X85uDtjwiMY" target="_blank">kika på videoinstruktionen</a> för genomgång.
         </div>
         <ul class="steps">
           <li>
@@ -605,7 +627,7 @@
       </div>
       <div class="task-body">
         <div class="note">
-          OBS: Detta moment gick vi inte igenom under föreläsningen. Se videoinstruktionen för genomgång av momentet.
+          OBS: Detta moment gick vi inte igenom under föreläsningen. <a href="https://youtu.be/Tsn7YPtW_38" target="_blank">Se videoinstruktionen</a> för genomgång av momentet.
         </div>
         <p>Skapa en personlig agent (Copilot Agent) som motsvarar ett återkommande användningsområde i ditt arbete.</p>
         <ul class="steps">
@@ -667,9 +689,9 @@
         </p>
         <ul class="steps">
           <li><div>Sätt er ner i grupper om 2–3 personer.</div></li>
-          <li><div>Läs igenom de fyra texterna i dokumentet "Här hittar ni de fyra texterna".</div></li>
+          <li><div>Läs igenom <a href="https://docs.google.com/document/d/1Q2mGJno15vToO_2lngWqPZzr5UemT83E/edit" target="_blank">de fyra texterna i dokumentet</a>.</div></li>
           <li><div>Diskutera och bedöm risknivån (Nivå 0–3) för varje text med hjälp av MSB:s klassificeringsnivåer.</div></li>
-          <li><div>Registrera era svar i Google-formuläret <em>Klassificering av Textrisk (Säkerhetsbedömning)</em>.</div></li>
+          <li><div>Registrera era svar i <a href="https://drive.google.com/open?id=1jEk5Bn4keTy6R6QmJPTxafLehntO2boiEjyUNxjSasA" target="_blank">Google-formuläret Klassificering av Textrisk (Säkerhetsbedömning)</a>.</div></li>
         </ul>
 
         <p style="margin-top:1.5rem; color: var(--dim); font-size: 0.8rem;">MSB:s klassificeringsnivåer</p>
@@ -705,53 +727,73 @@
       </div>
       <div class="resource-grid">
         <div class="resource-item">
+          <div class="resource-type">Presentation</div>
+          <div class="resource-name"><a href="https://drive.google.com/file/d/1dTrVtgyLDkCjf6fRzvy7vVUqWJFdw8P0/view?usp=sharing" target="_blank">Presentation från Tumba</a></div>
+          <div class="resource-desc">Presentationsbilder från utbildningstillfället</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Promptbibliotek</div>
+          <div class="resource-name"><a href="https://vidarkjerstadius.wordpress.com/promptbibliotek-och-resurser-real/" target="_blank">Mitt promptbibliotek</a></div>
+          <div class="resource-desc">Prompterna från Copilot-agenterna – kopiera fritt</div>
+        </div>
+        <div class="resource-item">
           <div class="resource-type">Bok</div>
-          <div class="resource-name">Maskiner som tänker</div>
+          <div class="resource-name"><a href="https://www.adlibris.com/sv/bok/maskiner-som-tanker-algoritmernas-hemligheter-och-vagen-till-artificiell-intelligens-9789180662185" target="_blank">Maskiner som tänker</a></div>
           <div class="resource-desc">Bra böcker för dig som vill läsa mer</div>
         </div>
         <div class="resource-item">
           <div class="resource-type">Bok</div>
-          <div class="resource-name">AI för nybörjare</div>
+          <div class="resource-name"><a href="https://www.adlibris.com/sv/bok/ai-for-nyborjare-20-allt-du-behover-for-att-komma-i-gang-med-artificiell-intelligens-9789127470767" target="_blank">AI för nybörjare 2.0</a></div>
           <div class="resource-desc">Bra böcker för dig som vill läsa mer</div>
         </div>
         <div class="resource-item">
           <div class="resource-type">Podd</div>
-          <div class="resource-name">Veckans AI-podcast</div>
-          <div class="resource-desc">Lärorik podcast som går igenom olika AI-tjänster och nyheter</div>
+          <div class="resource-name"><a href="https://open.spotify.com/show/61Fr0ASttW7VmunY1r0EtR" target="_blank">Veckans AI-podcast</a></div>
+          <div class="resource-desc">Lärorik podcast om AI-tjänster och nyheter</div>
         </div>
         <div class="resource-item">
           <div class="resource-type">Podd</div>
-          <div class="resource-name">Hard Fork</div>
-          <div class="resource-desc">Lärorik podcast som går igenom olika AI-tjänster och nyheter</div>
+          <div class="resource-name"><a href="https://poddtoppen.se/podcast/1650643100/hard-fork" target="_blank">Hard Fork</a></div>
+          <div class="resource-desc">Lärorik podcast om AI-tjänster och nyheter</div>
         </div>
         <div class="resource-item">
           <div class="resource-type">Hemsida</div>
-          <div class="resource-name">Internetstiftelsen</div>
-          <div class="resource-desc">Kom igång med AI – guide för dig som är nybörjare</div>
+          <div class="resource-name"><a href="https://internetkunskap.se/artiklar/grundkurs-i-ai/kom-igang-med-%20ai-guide-for-dig-som-ar-nyborjare/" target="_blank">Kom igång med AI</a></div>
+          <div class="resource-desc">Internetstiftelsens guide för nybörjare</div>
         </div>
         <div class="resource-item">
           <div class="resource-type">Hemsida</div>
-          <div class="resource-name">Elements of AI</div>
+          <div class="resource-name"><a href="https://internetkunskap.se/artiklar/grundkurs-i-ai/sa-soker-du-kallkritiskt-med-ai/" target="_blank">Källkritik med AI</a></div>
+          <div class="resource-desc">Så söker du källkritiskt med AI</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Hemsida</div>
+          <div class="resource-name"><a href="https://internetkunskap.se/artiklar/grundkurs-i-ai/blotta-ogat-racker-inte-sa-avslojar-du-falska-bilder-i-en-tid-av-ai/" target="_blank">Avslöja AI-bilder</a></div>
+          <div class="resource-desc">Blotta ögat räcker inte – så avslöjar du falska bilder</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Webbkurs</div>
+          <div class="resource-name"><a href="https://course.elementsofai.com/se/" target="_blank">Elements of AI</a></div>
           <div class="resource-desc">Webbkurs om hur AI funkar teoretiskt</div>
         </div>
         <div class="resource-item">
           <div class="resource-type">Hemsida</div>
-          <div class="resource-name">There's An AI For That</div>
+          <div class="resource-name"><a href="https://mediemedveten.se/" target="_blank">Mediemedveten</a></div>
+          <div class="resource-desc">Källkritik och AI-genererade bilder</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Hemsida</div>
+          <div class="resource-name"><a href="https://theresanaiforthat.com/" target="_blank">There's An AI For That</a></div>
           <div class="resource-desc">Samlar och kategoriserar olika AI-tjänster</div>
         </div>
         <div class="resource-item">
           <div class="resource-type">Hemsida</div>
-          <div class="resource-name">Micke Kring</div>
-          <div class="resource-desc">Mångsysslare med många finurliga applikationer av AI</div>
-        </div>
-        <div class="resource-item">
-          <div class="resource-type">Hemsida</div>
-          <div class="resource-name">Mediemedveten</div>
-          <div class="resource-desc">Avslöja AI-genererade bilder &amp; källkritik med AI</div>
+          <div class="resource-name"><a href="https://mickekring.se/" target="_blank">Micke Kring</a></div>
+          <div class="resource-desc">Mångsysslare med många finurliga AI-applikationer</div>
         </div>
         <div class="resource-item">
           <div class="resource-type">Digiteket</div>
-          <div class="resource-name">Praktisk introduktion till generativ AI</div>
+          <div class="resource-name"><a href="https://digiteket.se/kurs/en-praktisk-introduktion-till-generativ-ai-chatgpt-gemini-och-copilot/" target="_blank">Praktisk introduktion till generativ AI</a></div>
           <div class="resource-desc">Introduktionskurs till AI</div>
         </div>
       </div>
@@ -760,7 +802,7 @@
   </main>
 
   <footer>
-    Vid frågor är du välkommen att kontakta <span>Vidar Kjerstadius</span>.
+    Vid frågor är du välkommen att kontakta <span><a href="mailto:vidar.kjerstadius@gmail.com">Vidar Kjerstadius</a></span>.
     Vi ses digitalt den <span>2 september</span>!
   </footer>
 
