@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hemuppgifter: AI i biblioteksvärlden</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
+
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --cyan: #00e5ff;
+      --magenta: #ff00aa;
+      --green: #39ff14;
+      --yellow: #ffe600;
+      --dim: #8888aa;
+      --text: #c8cce8;
+      --border: #1e1e3a;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 15px;
+      line-height: 1.75;
+      min-height: 100vh;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 229, 255, 0.015) 2px,
+          rgba(0, 229, 255, 0.015) 4px
+        );
+    }
+
+    /* ── Scanline overlay ── */
+    body::before {
+      content: '';
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0,0,0,0.08) 3px,
+        rgba(0,0,0,0.08) 4px
+      );
+      z-index: 1000;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 2px solid var(--cyan);
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      background: linear-gradient(180deg, rgba(0,229,255,0.04) 0%, transparent 100%);
+    }
+
+    header::before {
+      content: '// BOTKYRKA BIBLIOTEK :: AI-UTBILDNING //';
+      display: block;
+      color: var(--dim);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.4rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: var(--cyan);
+      text-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0,229,255,0.3);
+      letter-spacing: 0.05em;
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      color: var(--magenta);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      margin-top: 0.75rem;
+      text-shadow: 0 0 10px var(--magenta);
+    }
+
+    .intro-box {
+      max-width: 760px;
+      margin: 2rem auto 0;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--green);
+      background: rgba(57, 255, 20, 0.04);
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    /* ── Layout ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* ── Overview table ── */
+    .overview {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--magenta);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--magenta), transparent);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    thead th {
+      background: rgba(0, 229, 255, 0.08);
+      color: var(--cyan);
+      text-align: left;
+      padding: 0.6rem 1rem;
+      border-bottom: 2px solid var(--cyan);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    tbody tr:hover {
+      background: rgba(0, 229, 255, 0.05);
+    }
+
+    tbody td {
+      padding: 0.65rem 1rem;
+      vertical-align: top;
+    }
+
+    tbody td:first-child {
+      color: var(--cyan);
+      white-space: nowrap;
+    }
+
+    tbody td:last-child {
+      color: var(--yellow);
+      font-size: 0.8rem;
+    }
+
+    /* ── Task cards ── */
+    .task {
+      margin-bottom: 3rem;
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--cyan);
+      background: var(--bg2);
+      position: relative;
+    }
+
+    .task::before {
+      content: attr(data-num);
+      position: absolute;
+      top: -1px;
+      right: 1.25rem;
+      background: var(--cyan);
+      color: var(--bg);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.1rem 0.5rem;
+      letter-spacing: 0.1em;
+    }
+
+    .task-header {
+      padding: 1.25rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .task-header h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      color: var(--cyan);
+      text-shadow: 0 0 12px rgba(0,229,255,0.4);
+      font-weight: 700;
+    }
+
+    .task-meta {
+      margin-top: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--dim);
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(255,0,170,0.12);
+      border: 1px solid rgba(255,0,170,0.3);
+      color: var(--magenta);
+      padding: 0.1rem 0.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      margin-right: 0.4rem;
+    }
+
+    .task-body {
+      padding: 1.25rem 1.5rem;
+    }
+
+    .task-body p {
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    /* ── Sub-task list ── */
+    .steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .steps li {
+      display: grid;
+      grid-template-columns: 1.5rem 1fr;
+      gap: 0.5rem;
+      align-items: start;
+    }
+
+    .steps li::before {
+      content: '▸';
+      color: var(--green);
+      text-shadow: 0 0 8px var(--green);
+      font-size: 0.9rem;
+      margin-top: 0.05rem;
+    }
+
+    .step-label {
+      display: inline-block;
+      background: rgba(57,255,20,0.1);
+      border: 1px solid rgba(57,255,20,0.25);
+      color: var(--green);
+      font-size: 0.7rem;
+      padding: 0.05rem 0.45rem;
+      margin-right: 0.4rem;
+      vertical-align: middle;
+    }
+
+    /* ── Highlight box (note) ── */
+    .note {
+      margin: 1rem 0;
+      padding: 0.9rem 1.1rem;
+      border-left: 3px solid var(--yellow);
+      background: rgba(255,230,0,0.05);
+      font-size: 0.88rem;
+      color: var(--yellow);
+    }
+
+    /* ── Classification levels ── */
+    .levels {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .level-card {
+      border: 1px solid var(--border);
+      padding: 0.85rem 1rem;
+      position: relative;
+    }
+
+    .level-card[data-level="0"] { border-left: 3px solid #4fc3f7; }
+    .level-card[data-level="1"] { border-left: 3px solid var(--green); }
+    .level-card[data-level="2"] { border-left: 3px solid var(--yellow); }
+    .level-card[data-level="3"] { border-left: 3px solid var(--magenta); }
+
+    .level-badge {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.4rem;
+    }
+
+    .level-card[data-level="0"] .level-badge { color: #4fc3f7; }
+    .level-card[data-level="1"] .level-badge { color: var(--green); }
+    .level-card[data-level="2"] .level-badge { color: var(--yellow); }
+    .level-card[data-level="3"] .level-badge { color: var(--magenta); }
+
+    .level-card p { font-size: 0.82rem; color: var(--dim); }
+
+    /* ── Resources section ── */
+    .resources {
+      margin-top: 3.5rem;
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--magenta);
+      background: var(--bg2);
+    }
+
+    .resources-header {
+      padding: 1.25rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .resources-header h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      color: var(--magenta);
+      text-shadow: 0 0 12px rgba(255,0,170,0.4);
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0;
+    }
+
+    .resource-item {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+
+    .resource-item:last-child {
+      border-right: none;
+    }
+
+    .resource-type {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--magenta);
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .resource-name {
+      color: var(--cyan);
+      font-size: 0.9rem;
+    }
+
+    .resource-desc {
+      font-size: 0.78rem;
+      color: var(--dim);
+      margin-top: 0.2rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+    }
+
+    footer span {
+      color: var(--cyan);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .levels {
+        grid-template-columns: 1fr;
+      }
+      .resource-grid {
+        grid-template-columns: 1fr;
+      }
+      .resource-item {
+        border-right: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Hemuppgifter: AI i biblioteksvärlden</h1>
+    <p class="subtitle">Tumba &bull; 18 mars &rarr; 2 september &bull; Utbildningsserie</p>
+    <div class="intro-box">
+      Tack för din medverkan vid utbildningstillfället i Tumba den 18 mars. Som vi gick igenom är
+      AI ett stöd för bibliotekarien, inte en ersättare, och det viktigaste är hur vi använder verktygen.
+      Här följer en serie uppgifter som du ska genomföra på egen hand fram till vårt uppföljningstillfälle
+      den 2 september. Syftet är att du ska gå från teori till praktisk färdighet i din egen arbetstakt.
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Overview table -->
+    <section class="overview">
+      <p class="section-label">Översikt</p>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Uppgift</th>
+            <th>Fokusområde</th>
+            <th>Verktyg</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>01</td>
+            <td>Prompt-pusslet</td>
+            <td>Strukturerad vs naturlig strategi</td>
+            <td>Copilot</td>
+          </tr>
+          <tr>
+            <td>02</td>
+            <td>Skrivarassistenten</td>
+            <td>Kommunikation &amp; textproduktion</td>
+            <td>Copilot</td>
+          </tr>
+          <tr>
+            <td>03</td>
+            <td>Personliga inställningar &amp; minnesfunktioner</td>
+            <td>Personliga anpassningar</td>
+            <td>Copilot</td>
+          </tr>
+          <tr>
+            <td>04</td>
+            <td>Skapa din första AI-agent</td>
+            <td>Skapa en agent i Copilot</td>
+            <td>Copilot</td>
+          </tr>
+          <tr>
+            <td>05</td>
+            <td>Etisk reflektion – Klassificering av textrisk</td>
+            <td>Informationssäkerhet &amp; GDPR</td>
+            <td>Dokument &amp; formulär</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Uppgift 1 -->
+    <article class="task" data-num="UPPG. 01">
+      <div class="task-header">
+        <h2>Prompt-pusslet</h2>
+        <div class="task-meta">
+          <span class="tag">Strukturerad strategi</span>
+          <span class="tag">Naturlig strategi</span>
+          <span class="tag">Copilot</span>
+        </div>
+      </div>
+      <div class="task-body">
+        <p>
+          Öva på de två strategier vi gick igenom: den strukturerade och den naturliga strategin.
+          Syftet är att testa hur samma grundidé tas emot av AI:n beroende på hur du formulerar dig.
+        </p>
+        <ul class="steps">
+          <li>
+            <div>
+              <span class="step-label">Del A</span>
+              <strong>Strukturerad prompt</strong> – Skapa en boktipslista för en specifik målgrupp
+              (t.ex. "lågstadieelever som gillar mysterier"). Prompten ska innehålla: Roll, Uppgift,
+              Kontext, Syfte och Format.
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Del B</span>
+              <strong>Naturlig dialog</strong> – Starta en ny chat. Försök uppnå samma mål genom att
+              "prata" med AI:n som med en kollega. Börja enkelt, ställ följdfrågor och iterera tills
+              du är nöjd.
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Reflektion</span>
+              Jämför resultaten. Vilken lista blev bäst? Skiljer sig tonläget eller urvalet åt?
+              Vilket arbetssätt föredrar du?
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Uppgift 2 -->
+    <article class="task" data-num="UPPG. 02">
+      <div class="task-header">
+        <h2>Skrivarassistenten</h2>
+        <div class="task-meta">
+          <span class="tag">Kommunikation</span>
+          <span class="tag">Textproduktion</span>
+          <span class="tag">Copilot</span>
+        </div>
+      </div>
+      <div class="task-body">
+        <p>Använd AI för att effektivisera din kommunikation med en befintlig text (t.ex. ett internt rutindokument, information från er hemsida eller ett programblad).</p>
+        <ul class="steps">
+          <li>
+            <div>
+              <span class="step-label">Steg 1</span>
+              Ladda upp dokumentet till Copilot och be den kontrollera stavfel och grammatiska fel. Granska svaret – stämmer det?
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Steg 2</span>
+              Be Copilot skriva om texten riktad mot en specifik målgrupp – t.ex. klarspråk eller anpassad för åldersgruppen 13–18.
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Steg 3</span>
+              Kombinera minst två kriterier i samma prompt (t.ex. klarspråk + NPF-anpassning, eller klarspråk + seniorer). Jämför med originaltexten: Blev resultatet bättre, lika bra eller sämre?
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Uppgift 3 -->
+    <article class="task" data-num="UPPG. 03">
+      <div class="task-header">
+        <h2>Personliga inställningar &amp; minnesfunktioner</h2>
+        <div class="task-meta">
+          <span class="tag">Personliga anpassningar</span>
+          <span class="tag">Copilot</span>
+        </div>
+      </div>
+      <div class="task-body">
+        <div class="note">
+          OBS: Detta moment gick vi inte igenom på föreläsningen – kika på videoinstruktionen för genomgång.
+        </div>
+        <ul class="steps">
+          <li>
+            <div>
+              <span class="step-label">Steg 1</span>
+              Aktivera <strong>Sparat minne</strong>. Klicka på "Hantera sparade minnen" för att se om det finns något sedan tidigare.
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Steg 2</span>
+              Aktivera <strong>Anpassa instruktioner</strong> (om den inte redan är aktiv).
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Steg 3</span>
+              Klicka på <strong>Redigera instruktioner</strong> och fyll i hur du vill att Copilot ska svara eller bete sig.
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Steg 4</span>
+              Testa i chatten och se hur den svarar annorlunda med dina nya instruktioner.
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Steg 5</span>
+              Be Copilot komma ihåg något om dig eller ditt arbete – gå sedan till inställningar &rarr; "Hantera minnen" för att bekräfta att det uppdaterats.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Uppgift 4 -->
+    <article class="task" data-num="UPPG. 04">
+      <div class="task-header">
+        <h2>Skapa din första AI-agent</h2>
+        <div class="task-meta">
+          <span class="tag">Copilot Agent</span>
+          <span class="tag">Textproduktion</span>
+          <span class="tag">Valfritt: Par</span>
+        </div>
+      </div>
+      <div class="task-body">
+        <div class="note">
+          OBS: Detta moment gick vi inte igenom under föreläsningen. Se videoinstruktionen för genomgång av momentet.
+        </div>
+        <p>Skapa en personlig agent (Copilot Agent) som motsvarar ett återkommande användningsområde i ditt arbete.</p>
+        <ul class="steps">
+          <li>
+            <div>
+              <span class="step-label">Grupp</span>
+              Fundera på om ni ska vara en eller två personer – det kan vara enklare att vara två och dela arbetsuppgifter.
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Fokus</span>
+              Tänk ut ett återkommande användningsområde som involverar textproduktion eller bollplank/reflektion.
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Skapa</span>
+              Gå in och skapa agenten. Använd exempelinstruktioner för att definiera agentens roll, syfte och instruktioner.
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Testa</span>
+              Använd agenten på en av dina riktiga arbetsuppgifter.
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Reflektion</span>
+              Förkortade agenten arbetsprocessen eller gav den ett nytt perspektiv?
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="step-label">Dela</span>
+              Om agenten är användbar för fler – dela den med resten av organisationen.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Uppgift 5 -->
+    <article class="task" data-num="UPPG. 05">
+      <div class="task-header">
+        <h2>Etisk reflektion – Klassificering av textrisk</h2>
+        <div class="task-meta">
+          <span class="tag">Informationssäkerhet</span>
+          <span class="tag">GDPR</span>
+          <span class="tag">MSB</span>
+        </div>
+      </div>
+      <div class="task-body">
+        <p>
+          Fokuserar på informationssäkerhet, GDPR och reflektion kring vilken typ av textmaterial
+          som är lämpligt att ladda upp till en AI-tjänst – baserat på MSB:s fyra klassificeringsnivåer.
+          Syftet är inte att hitta rätt eller fel, utan att använda nivåerna som ett ramverk för diskussion.
+        </p>
+        <ul class="steps">
+          <li><div>Sätt er ner i grupper om 2–3 personer.</div></li>
+          <li><div>Läs igenom de fyra texterna i dokumentet "Här hittar ni de fyra texterna".</div></li>
+          <li><div>Diskutera och bedöm risknivån (Nivå 0–3) för varje text med hjälp av MSB:s klassificeringsnivåer.</div></li>
+          <li><div>Registrera era svar i Google-formuläret <em>Klassificering av Textrisk (Säkerhetsbedömning)</em>.</div></li>
+        </ul>
+
+        <p style="margin-top:1.5rem; color: var(--dim); font-size: 0.8rem;">MSB:s klassificeringsnivåer</p>
+        <div class="levels">
+          <div class="level-card" data-level="0">
+            <div class="level-badge">Nivå 0 — Försumbar</div>
+            <p>Informationen kan spridas fritt utan att någon tar skada – t.ex. offentlig statistik eller allmänna rutiner.</p>
+          </div>
+          <div class="level-card" data-level="1">
+            <div class="level-badge">Nivå 1 — Måttlig</div>
+            <p>Intern men relativt harmlös; en spridning skulle orsaka besvär men inga allvarliga konsekvenser.</p>
+          </div>
+          <div class="level-card" data-level="2">
+            <div class="level-badge">Nivå 2 — Betydande</div>
+            <p>Innehåller personuppgifter eller känsliga detaljer där spridning kan ge kännbara konsekvenser.</p>
+          </div>
+          <div class="level-card" data-level="3">
+            <div class="level-badge">Nivå 3 — Allvarlig</div>
+            <p>Sekretessbelagd eller så känslig att en spridning allvarligt kan skada enskilda, verksamheten eller samhällsviktiga funktioner.</p>
+          </div>
+        </div>
+
+        <p style="margin-top:1.25rem; font-size:0.82rem; color:var(--dim);">
+          Under den digitala workshopen i september kommer vi titta på sammanställningen av hur alla grupper reflekterat kring klassificeringen.
+        </p>
+      </div>
+    </article>
+
+    <!-- Resources -->
+    <section class="resources">
+      <div class="resources-header">
+        <h2>Resurser för självstudier</h2>
+      </div>
+      <div class="resource-grid">
+        <div class="resource-item">
+          <div class="resource-type">Bok</div>
+          <div class="resource-name">Maskiner som tänker</div>
+          <div class="resource-desc">Bra böcker för dig som vill läsa mer</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Bok</div>
+          <div class="resource-name">AI för nybörjare</div>
+          <div class="resource-desc">Bra böcker för dig som vill läsa mer</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Podd</div>
+          <div class="resource-name">Veckans AI-podcast</div>
+          <div class="resource-desc">Lärorik podcast som går igenom olika AI-tjänster och nyheter</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Podd</div>
+          <div class="resource-name">Hard Fork</div>
+          <div class="resource-desc">Lärorik podcast som går igenom olika AI-tjänster och nyheter</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Hemsida</div>
+          <div class="resource-name">Internetstiftelsen</div>
+          <div class="resource-desc">Kom igång med AI – guide för dig som är nybörjare</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Hemsida</div>
+          <div class="resource-name">Elements of AI</div>
+          <div class="resource-desc">Webbkurs om hur AI funkar teoretiskt</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Hemsida</div>
+          <div class="resource-name">There's An AI For That</div>
+          <div class="resource-desc">Samlar och kategoriserar olika AI-tjänster</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Hemsida</div>
+          <div class="resource-name">Micke Kring</div>
+          <div class="resource-desc">Mångsysslare med många finurliga applikationer av AI</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Hemsida</div>
+          <div class="resource-name">Mediemedveten</div>
+          <div class="resource-desc">Avslöja AI-genererade bilder &amp; källkritik med AI</div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-type">Digiteket</div>
+          <div class="resource-name">Praktisk introduktion till generativ AI</div>
+          <div class="resource-desc">Introduktionskurs till AI</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Vid frågor är du välkommen att kontakta <span>Vidar Kjerstadius</span>.
+    Vi ses digitalt den <span>2 september</span>!
+  </footer>
+
+</body>
+</html>
